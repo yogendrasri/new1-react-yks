@@ -3,9 +3,10 @@
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
-  name: {{ $fullName }}
+  name: {{ $fullName }}  
   annotations:
     argocd.argoproj.io/sync-options: Validate=false
+    haproxy.router.openshift.io/appid-auth: {{ printf "bindSecret=%s namespace=%s requestType=%s serviceName=%s" (required "AppId binding is required to enable auth on the ingress" .Values.appidBinding) $namespace $requestType $fullName }}
 spec:
   to:
     kind: Service
